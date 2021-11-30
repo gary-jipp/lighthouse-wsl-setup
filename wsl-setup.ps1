@@ -292,8 +292,10 @@ function Get-WSL-Status {
   Write-Host "Checking WSL Status..."
   Write-Textbox 'Checking WSL Status ...'
   $out = Invoke-Command 'c:\windows\system32\wsl.exe --status'
-  foreach ($item in $out) {
-    # Write-Host $item
+  if(out[0] -notmatch "Copyright"){
+    foreach ($item in $out) {
+      Write-Host $item
+    }
   }
   if ($error) {
     Write-Textbox $error
