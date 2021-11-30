@@ -1,14 +1,24 @@
-# Lighthouse Windows 10 WSL Setup !
+# Lighthouse Windows 10 WSL Setup
+
+## Quick Start
+
+If you are familiar with using PowerShell and the command line interface:
+
+1. Open PowerShell as Administrator
+2. Execute the following Command:
+
+
 
 ## Summary
 
 In this document we will walk through the installation and setup of the Lighthouse Labs WSL2 (Windows Subsystem for Linux) image.  We will perform the following steps:
 
-1. Enable WSL on the computer 
-2. Update the Kernel 
-3. Download the LHL VM Image
-4. Import the LHL VM image
-5. Create some useful shortcuts
+- Enable Virtualization on the computer 
+- Run the WSL Setup script in PowerShell
+  - Enable WSL2 
+  - Update the Kernel 
+  - Import the LHL VM image
+- Create some useful shortcuts
 
 ## 1.  Enable WSL on the computer 
 
