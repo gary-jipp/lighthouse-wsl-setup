@@ -371,16 +371,18 @@ function Show-No-Admin-Needed-Warning {
 function Confirm-Virtualization {
   Write-Host "Checking Hardware Virtualization.  One moment..."
   # $virtual = (gcim Win32_ComputerSystem).HypervisorPresent
-  $virtual = Get-ComputerInfo -property "HyperVRequirementVirtualizationFirmwareEnabled"
-  Write-Host "HypervisorPresent=$virtual"
-  if ($virtual -notmatch "True") {
-    $outputBox.Text = "";
-    Write-Textbox 'Your computer is not currently setup to support Hardware Virtualization.  Virtualization must be enabled for WSL to function.' 1
-    Write-Textbox "You must enable Virtialization in your Computer's BIOS setup before continuing. This is usually quite easy but is different for every computer so please check your computer manual or search online for how to do this" 1 
-    Write-Textbox 'Once enabled, continue with this Setup.'
-    return $false
+  $virtual = Get-ComputerInfo -property "Hyper*"
+  Write-Host "$virtual"
+
+  if ($virtual -notmatch "HyperVisorPresent\s+:\s+True" -or $virtual -notmatch "HyperVRequirementVirtualizationFirmwareEnabled\s+:\sTrue") {
+    return $true
   }
-  return $true
+
+  $outputBox.Text = "";
+  Write-Textbox 'Your computer is not currently setup to support Hardware Virtualization.  Virtualization must be enabled for WSL to function.' 1
+  Write-Textbox "You must enable Virtialization in your Computer's BIOS setup before continuing. This is usually quite easy but is different for every computer so please check your computer manual or search online for how to do this" 1 
+  Write-Textbox 'Once enabled, continue with this Setup.'
+  return $false
 }
 
 $wslStatus = Get-WSL-Status 
