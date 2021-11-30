@@ -370,10 +370,8 @@ function Show-No-Admin-Needed-Warning {
 }
 function Confirm-Virtualization {
   Write-Host "Checking Hardware Virtualization.  One moment..."
-  # $virtual = (gcim Win32_ComputerSystem).HypervisorPresent
   $virtual = Get-ComputerInfo -property "Hyper*"
   Write-Host "$virtual"
-
   if ($virtual -match "HyperVisorPresent=True" -or $virtual -match "HyperVRequirementVirtualizationFirmwareEnabled=True") {
     return $true
   }
