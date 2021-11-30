@@ -378,7 +378,7 @@ function Confirm-Virtualization {
 
   $outputBox.Text = "";
   Write-Textbox 'Your computer is not currently setup to support Hardware Virtualization.  Virtualization must be enabled for WSL to function.' 1
-  Write-Textbox "You must enable Virtialization in your Computer's BIOS setup before continuing. This is usually quite easy but is different for every computer so please check your computer manual or search online for how to do this" 1 
+  Write-Textbox "You must enable Virtualization in your Computer's BIOS setup before continuing. This is usually quite easy but is different for every computer so please check your computer manual or search online for how to do this" 1 
   Write-Textbox 'Once enabled, continue with this Setup.'
   return $false
 }
