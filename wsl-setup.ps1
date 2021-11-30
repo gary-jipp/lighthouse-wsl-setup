@@ -374,7 +374,7 @@ function Confirm-Virtualization {
   $virtual = Get-ComputerInfo -property "Hyper*"
   Write-Host "$virtual"
 
-  if ($virtual -notmatch "HyperVisorPresent=True" -or $virtual -notmatch "HyperVRequirementVirtualizationFirmwareEnabled=True") {
+  if ($virtual -match "HyperVisorPresent=True" -or $virtual -match "HyperVRequirementVirtualizationFirmwareEnabled=True") {
     return $true
   }
 
