@@ -289,11 +289,11 @@ function  Cleanup {
 }
 
 function Get-WSL-Status {
-  Write-Host "$n Checking WSL Status..."
+  Write-Host "Checking WSL Status..."
   Write-Textbox 'Checking WSL Status ...'
   $out = Invoke-Command 'c:\windows\system32\wsl.exe --status'
   foreach ($item in $out) {
-    Write-Host $item
+    # Write-Host $item
   }
   if ($error) {
     Write-Textbox $error
