@@ -433,7 +433,7 @@ if ($wslStatus -eq "ENABLED") {
 }
 
 if ($wslStatus -eq "ACTIVE") {
-  Write-Textbox 'Your system has a Lighthouse VM already installed. Continue to Step 4 to Create Windows Shortcuts'
+  Write-Textbox 'Your system has Lighthouse WSL already installed. Continue to Step 4 to Create Windows Shortcuts'
   $EnableButton.Enabled = $false
   $DeployButton.Enabled = $false
   $UpdateButton.Enabled = $false
