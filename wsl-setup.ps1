@@ -3,13 +3,16 @@ Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
 [string]$n = "`r`n"
+[string]$wsl = "$env:SystemRoot\system32\wsl.exe"
+
+Write-Host $wsl
 
 function New-Button {
   param ( $x, $action, $text)
 
   $button = New-Object System.Windows.Forms.Button
   $button.Size = New-Object System.Drawing.Size(120, 80)
-  $button.Location = New-Object System.Drawing.Size($x, 50)
+  $button.Location = New-Object System.Drawing.Size($x, 20)
   $button.Text = $text
   $button.Add_Click( $action)
   return $button
@@ -23,26 +26,21 @@ $Form.SizeGripStyle = "Hide"
 # $Form.ShowInTaskbar = $true
 # $Form.StartPosition = "CenterParent"     
 $Form.BackColor = "#FFEEEEEE"
-$Form.Size = New-Object System.Drawing.Size(500, 500)
+$Form.Size = New-Object System.Drawing.Size(500, 640)
 # AutoSize ensures the Form size can contain the text
 $Form.StartPosition = "CenterParent"   
 $Form.AutoSize = $true
 $Form.AutoSizeMode = "GrowAndShrink"
-$Form.Text = "Lighthouse Labs VM  Installer"
+$Form.Text = "Lighthouse Labs VM  Installer 1.03"
 
 $FontFace = New-Object System.Drawing.Font(
   "Comic Sans MS", 14, [System.Drawing.FontStyle]::Regular
 )
 $Form.Font = $FontFace
 
-$Label = New-Object System.Windows.Forms.Label
-$Label.Text = "Deploy LightHouse WSL2 Image"
-$Label.AutoSize = $true
-$Form.Controls.Add($Label)
-
 $outputBox = New-Object System.Windows.Forms.TextBox
-$outputBox.Location = New-Object System.Drawing.Size(10, 150)
-$outputBox.Size = New-Object System.Drawing.Size(565, 200)
+$outputBox.Location = New-Object System.Drawing.Size(10, 120)
+$outputBox.Size = New-Object System.Drawing.Size(565, 240)
 $outputBox.MultiLine = $True
 $outputBox.Scrollbars = "Vertical"
 $FontFace = New-Object System.Drawing.Font(
@@ -65,6 +63,11 @@ $Form.Controls.Add($ShortcutButton)
 $CloseButton1 = New-Button  20 { $Form.Close() } "Exit"
 $CloseButton2 = New-Button  160 { $Form.Close() } "Exit"
 $CloseButton3 = New-Button  300 { $Form.Close() } "Exit"
+
+$EnableButton.Enabled = $false
+$DeployButton.Enabled = $false
+$UpdateButton.Enabled = $false
+$ShortcutButton.Enabled = $false
 
 $tarFile = "$env:temp\Lighthouse_wsl-v1.2.tar"
 
@@ -433,23 +436,17 @@ if ($wslStatus -eq "UPDATED") {
 if ($wslStatus -eq "NOT_ENABLED") {
   Write-Textbox 'Your system has does not have WSL2 enabled. Continue with Step 1 to enable WSL2'
   $EnableButton.Enabled = $true
-  $UpdateButton.Enabled = $false
-  $DeployButton.Enabled = $false
 }
 
 if ($wslStatus -eq "ENABLED") {
   Write-Textbox 'Your system has WSL2 enabled. Continue to Step 2 to Update the Kernel'
-  $EnableButton.Enabled = $false
   $UpdateButton.Enabled = $true
-  $DeployButton.Enabled = $false
   $EnableButton.text = "Step 1:`r`nDone"
 }
 
 if ($wslStatus -eq "ACTIVE") {
   Write-Textbox 'Your system has Lighthouse WSL already installed. Continue to Step 4 to Create Windows Shortcuts'
-  $EnableButton.Enabled = $false
-  $DeployButton.Enabled = $false
-  $UpdateButton.Enabled = $false
+  $ShortcutButton.Enabled = $true
 }
 
 if ($wslStatus -eq "ERROR") {
@@ -457,6 +454,7 @@ if ($wslStatus -eq "ERROR") {
   $EnableButton.Enabled = $false
   $DeployButton.Enabled = $false
   $UpdateButton.Enabled = $false
+  $ShortcutButton.Enabled = $false
 }
 
 Write-Host  "WSL Status=$wslStatus"
@@ -464,9 +462,7 @@ Write-Host  "WSL Status=$wslStatus"
 if ($wslStatus -ne "ACTIVE") {
   $virtualStatus = Confirm-Virtualization
   if (!$virtualStatus) {
-    $EnableButton.Enabled = $false
-    $UpdateButton.Enabled = $false
-    $DeployButton.Enabled = $false
+    $ShortcutButton.Enabled = $false
   }
 }
 
