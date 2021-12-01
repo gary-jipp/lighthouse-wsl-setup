@@ -191,6 +191,7 @@ function  Import-Image {
     return
   }
 
+  $outputBox.Text = "";
   $TempFile = Download('https://bit.ly/3lhzXFa')
   $ZipFile = "$TempFile.zip"
   if (!$error) {
