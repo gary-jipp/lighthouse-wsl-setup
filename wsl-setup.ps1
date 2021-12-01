@@ -296,7 +296,7 @@ function Add-Shortcuts {
   $shortcut.TargetPath = "\\wsl$\LightHouse\home\labber\lighthouse"
   $shortcut.Save()
 
-  Write-Textbox "Complete!  Your Lighthouse WSL system is ready to use."
+  Write-Textbox "Complete!  Your Lighthouse WSL is ready to use!"
 }
 
 function  Cleanup {
