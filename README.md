@@ -2,13 +2,12 @@
 
 ## Quick Start
 
-If you are familiar with using PowerShell and the command line interface:
+1. Create a desktop shortcut to the following:
+```
+powershell.exe iex ((New-Object System.Net.WebClient).DownloadString('https://git.io/JM2dE'))
+```
+2. Right Click on the new Shortcut, select *"Run as Administrator"*
 
-1. Open PowerShell as Administrator
-2. Execute the following Command:
-```
-iex ((New-Object System.Net.WebClient).DownloadString('https://git.io/JM2dE'))
-```
 - Don't forget to reboot after Step 1 (if required)
-- For Step 3 (Import) and later, open PowerShell normally, not as Admin
+- For Step 3 (Import) and later, open shortcut normally, not as Admin
 
