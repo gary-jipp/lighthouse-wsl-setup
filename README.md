@@ -2,7 +2,7 @@
 
 ## Quick Start
 
-1. Create a desktop shortcut to the following:
+1. Create a desktop shortcut called "Lighthouse WSL Setup" to the following:
 ```
 powershell.exe iex ((New-Object System.Net.WebClient).DownloadString('https://git.io/JM2dE'))
 ```
@@ -10,4 +10,3 @@ powershell.exe iex ((New-Object System.Net.WebClient).DownloadString('https://gi
 
 - Don't forget to reboot after Step 1 (if required)
 - For Step 3 (Import) and later, open shortcut normally, not as Admin
-
