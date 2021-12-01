@@ -59,6 +59,8 @@ $UpdateButton = New-Button  160 { Update-Kernel } "Step 2: `r`nUpdate Kernel"
 $Form.Controls.Add($UpdateButton)
 $DeployButton = New-Button  300 { Import-Image } "Step 3: `r`nImport VM Image"
 $Form.Controls.Add($DeployButton)
+$ShortcutButton = New-Button  440 {  } "Step 4: `r`nCreate Shortcuts"
+$Form.Controls.Add($ShortcutButton)
 
 $CloseButton1 = New-Button  20 { $Form.Close() } "Exit"
 $CloseButton2 = New-Button  160 { $Form.Close() } "Exit"
@@ -276,6 +278,9 @@ function Import-WSL-Image {
   return $true
 }
 
+function Create-Shortcuts {
+  
+}
 
 function  Cleanup {
   param ($ZipFile)
@@ -312,6 +317,10 @@ function Get-WSL-Status {
   }
 
   if ($out[-1] -match "version: 5") {
+    $vmStatus = Get-VM-Status
+    if ($vmStatus) {
+      return "ACTIVE"
+    }
     return "UPDATED"
   }
 
@@ -383,14 +392,27 @@ function Confirm-Virtualization {
   return $false
 }
 
+function Get-VM-Status {
+  $cmd = "c:\windows\system32\wsl.exe -l -v"
+  Write-Host $cmd
+  $out = Invoke-Command $cmd
+  foreach ($item in $out) {
+    Write-Host $item
+  }
+
+  if ($out -match "Lighthouse" -or $out -match "LHL" ) {
+    return $true
+  }
+  return $false
+}
+
 $wslStatus = Get-WSL-Status 
-Write-Host  "WSL Status=$wslStatus"
 if ($wslStatus -eq "UPDATED") {
   Write-Textbox 'Your system has WSL2 enabled with an updated Kernel.'
   Write-Textbox 'Continue to Step 3 to Deploy the LHL Linux VM. ' 1
   Write-Textbox 'Note: You should NOT be running PowerShell as Admin this time!'
-  $DeployButton.Enabled = $true
   $EnableButton.Enabled = $false
+  $DeployButton.Enabled = $true
   $UpdateButton.Enabled = $false
   $EnableButton.text = "Step 1:`r`nDone"
   $UpdateButton.text = "Step 2:`r`nDone"
@@ -401,6 +423,7 @@ if ($wslStatus -eq "NOT_ENABLED") {
   $UpdateButton.Enabled = $false
   $DeployButton.Enabled = $false
 }
+
 if ($wslStatus -eq "ENABLED") {
   Write-Textbox 'Your system has WSL2 enabled. Continue to Step 2 to Update the Kernel'
   $EnableButton.Enabled = $false
@@ -408,6 +431,14 @@ if ($wslStatus -eq "ENABLED") {
   $DeployButton.Enabled = $false
   $EnableButton.text = "Step 1:`r`nDone"
 }
+
+if ($wslStatus -eq "ACTIVE") {
+  Write-Textbox 'Your system has a Lighthouse VM already installed. Continue to Step 4 to Create Windows Shortcuts'
+  $EnableButton.Enabled = $false
+  $DeployButton.Enabled = $false
+  $UpdateButton.Enabled = $false
+}
+
 if ($wslStatus -eq "ERROR") {
   Write-Textbox 'An error was encountered!'
   $EnableButton.Enabled = $false
@@ -415,11 +446,15 @@ if ($wslStatus -eq "ERROR") {
   $UpdateButton.Enabled = $false
 }
 
-$virtualStatus = Confirm-Virtualization
-if (!$virtualStatus) {
-  $EnableButton.Enabled = $false
-  $UpdateButton.Enabled = $false
-  $DeployButton.Enabled = $false
+Write-Host  "WSL Status=$wslStatus"
+
+if ($wslStatus -ne "ACTIVE") {
+  $virtualStatus = Confirm-Virtualization
+  if (!$virtualStatus) {
+    $EnableButton.Enabled = $false
+    $UpdateButton.Enabled = $false
+    $DeployButton.Enabled = $false
+  }
 }
 
 [void] $Form.showDialog()
