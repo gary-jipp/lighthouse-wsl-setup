@@ -413,7 +413,7 @@ function Get-VM-Status {
     Write-Host $item
   }
 
-  if ($out -match "Lighthouse" -or $out -match "LHL" ) {
+  if ($out -match "Lighthouse") {
     return $true
   }
   return $false
@@ -422,7 +422,7 @@ function Get-VM-Status {
 $wslStatus = Get-WSL-Status 
 if ($wslStatus -eq "UPDATED") {
   Write-Textbox 'Your system has WSL2 enabled with an updated Kernel.'
-  Write-Textbox 'Continue to Step 3 to Deploy the LHL Linux VM. ' 1
+  Write-Textbox 'Continue to Step 3 to Deploy the Lighthouse Linux VM. ' 1
   Write-Textbox 'Note: You should NOT be running PowerShell as Admin this time!'
   $EnableButton.Enabled = $false
   $DeployButton.Enabled = $true
