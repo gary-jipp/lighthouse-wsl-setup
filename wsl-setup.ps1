@@ -59,7 +59,7 @@ $UpdateButton = New-Button  160 { Update-Kernel } "Step 2: `r`nUpdate Kernel"
 $Form.Controls.Add($UpdateButton)
 $DeployButton = New-Button  300 { Import-Image } "Step 3: `r`nImport VM Image"
 $Form.Controls.Add($DeployButton)
-$ShortcutButton = New-Button  440 {  } "Step 4: `r`nCreate Shortcuts"
+$ShortcutButton = New-Button  440 { Add-Shortcuts } "Step 4: `r`nCreate Shortcuts"
 $Form.Controls.Add($ShortcutButton)
 
 $CloseButton1 = New-Button  20 { $Form.Close() } "Exit"
@@ -278,8 +278,21 @@ function Import-WSL-Image {
   return $true
 }
 
-function Create-Shortcuts {
-  
+function Add-Shortcuts {
+  Write-Textbox "`r`nCreating Desktop Shortcuts ..."
+  Write-Host "Deleting: $ZipFile"
+  $WshShell = New-Object -comObject WScript.Shell
+  $shortcut = $WshShell.CreateShortcut("$Home\Desktop\Lighthouse WSL.lnk")
+  $shortcut.TargetPath = "c:\windows\system32\wsl.exe"
+  $shortcut.WorkingDirectory = "\\wsl$\LightHouse\home\labber\lighthouse"
+  $shortcut.Save()
+
+  $WshShell = New-Object -comObject WScript.Shell
+  $shortcut = $WshShell.CreateShortcut("$Home\Desktop\Lighthouse Files.lnk")
+  $shortcut.TargetPath = "\\wsl$\LightHouse\home\labber\lighthouse"
+  $shortcut.Save()
+
+  Write-Textbox "Complete!  Your Lighthouse WSL system is ready to use."
 }
 
 function  Cleanup {
