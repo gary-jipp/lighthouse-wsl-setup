@@ -425,8 +425,8 @@ function Get-VM-Status {
 $wslStatus = Get-WSL-Status 
 if ($wslStatus -eq "UPDATED") {
   Write-Textbox 'Your system has WSL2 enabled with an updated Kernel.'
-  Write-Textbox 'Continue to Step 3 to Deploy the Lighthouse Linux VM. ' 1
-  Write-Textbox 'Note: You should NOT be running PowerShell as Admin this time!'
+  Write-Textbox 'Continue with Step 3 to Deploy the Lighthouse Linux VM. ' 1
+
   $EnableButton.Enabled = $false
   $DeployButton.Enabled = $true
   $UpdateButton.Enabled = $false
