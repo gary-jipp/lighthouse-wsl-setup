@@ -242,7 +242,7 @@ function  Import-Image {
   }
 
   Write-Textbox 'Done! Looks like that worked.'
-  Write-Textbox 'Now run Step 4 to create a few useful shortcuts on your desktop.  '
+  Write-Textbox 'Now run Step 4 to create a few useful shortcuts on your desktop.'
   $DeployButton.text = "Step 3:`r`nDone"
   $ShortcutButton.Enabled = $true
 }
