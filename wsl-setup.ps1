@@ -235,7 +235,7 @@ function  Import-Image {
   }
   Cleanup($ZipFile)
 
-  $success = Get-VM-Status
+  $success = Get-VM-Status $true
   if (!$success) {
     Write-Textbox "`r`Import Failed.  It happens, Maybe try again"
     return;
@@ -424,11 +424,15 @@ function Confirm-Virtualization {
 }
 
 function Get-VM-Status {
+  param ($display)
   $cmd = "$wsl -l -v"
   Write-Host $cmd
   $out = Invoke-Command $cmd
   foreach ($item in $out) {
     Write-Host $item
+    if($display){
+      Write-Textbox $item
+    }
   }
 
   if ($out -match "Lighthouse") {
