@@ -92,8 +92,7 @@ function Write-Textbox {
 }
 
 function  EnableWSL {
-  $outputBox.Text = "";
-  $error.Clear()
+   $error.Clear()
   $EnableButton.Enabled = $false
   $EnableButton.Text = "Running"
 
@@ -104,7 +103,7 @@ function  EnableWSL {
     $Form.Controls.Add($CloseButton1)
     return
   }
-  
+
   $outputBox.Text = "";
   Write-Host "$n Enabling WSL feature..."
   Write-Textbox 'Enabling WSL feature...'
