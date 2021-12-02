@@ -2,7 +2,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
-$version = "1.05"
+$version = "1.06.01"
 
 function New-Button {
   param ( $x, $action, $text)
