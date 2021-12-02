@@ -2,11 +2,10 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
-$version = "1.02.010"
+$version = "1.02.011"
 
 function New-Button {
   param ( $x, $action, $text)
-
   $button = New-Object System.Windows.Forms.Button
   $button.Size = New-Object System.Drawing.Size(120, 80)
   $button.Location = New-Object System.Drawing.Size($x, 20)
@@ -30,9 +29,7 @@ $Form.AutoSize = $true
 $Form.AutoSizeMode = "GrowAndShrink"
 $Form.Text = "Lighthouse Labs WSL Installer $version"
 
-$FontFace = New-Object System.Drawing.Font(
-  "Comic Sans MS", 14, [System.Drawing.FontStyle]::Regular
-)
+$FontFace = New-Object System.Drawing.Font("Comic Sans MS", 14, [System.Drawing.FontStyle]::Regular)
 $Form.Font = $FontFace
 
 $outputBox = New-Object System.Windows.Forms.TextBox
