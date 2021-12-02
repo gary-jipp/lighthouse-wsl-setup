@@ -75,9 +75,9 @@ function Get-Env {
 
 [string]$n = "`r`n"
 [string]$wsl = "$env:SystemRoot\system32\wsl.exe"
+[string]$dism = "$env:SystemRoot\system32\dism.exe"
 [string]$vmurl = Get-Env $env:wslsetup_vmurl 'https://bit.ly/3lhzXFa'
 [string]$tarFile = "$env:temp\Lighthouse_wsl-v1.2.tar"
-
 Write-Host "URL=$vmurl"
 
 function Write-Textbox {
@@ -105,7 +105,7 @@ function  EnableWSL {
 
   Write-Host "$n Enabling WSL feature..."
   Write-Textbox 'Enabling WSL feature...'
-  $out1 = Invoke-Command 'c:\windows\system32\dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart'
+  $out1 = Invoke-Command "$dism /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart"
   foreach ($item in $out1) {
     if ($item -notmatch '=\s') {
       Write-Host $item
@@ -122,7 +122,7 @@ function  EnableWSL {
 
   Write-Host "$n Enabling Virtual Machine Platform feature..."
   Write-Textbox 'Enabling Virtual Machine Platform feature...'
-  $out1 = Invoke-Command 'c:\windows\system32\dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart'
+  $out1 = Invoke-Command "$dism  /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart"
   foreach ($item in $out1) {
     if ($item -notmatch '=\s') {
       Write-Host $item
@@ -296,7 +296,7 @@ function Add-Shortcuts {
   Write-Host "Deleting: $ZipFile"
   $WshShell = New-Object -comObject WScript.Shell
   $shortcut = $WshShell.CreateShortcut("$Home\Desktop\Lighthouse WSL.lnk")
-  $shortcut.TargetPath = "c:\windows\system32\wsl.exe"
+  $shortcut.TargetPath = "$wsl"
   $shortcut.WorkingDirectory = "\\wsl$\LightHouse\home\labber\lighthouse"
   $shortcut.Save()
 
@@ -322,7 +322,7 @@ function  Cleanup {
 function Get-WSL-Status {
   Write-Host "Checking WSL Status..."
   Write-Textbox 'Checking WSL Status ...'
-  $out = Invoke-Command 'c:\windows\system32\wsl.exe --status'
+  $out = Invoke-Command "$wsl --status"
   if ($out[0] -notmatch "Copyright") {
     foreach ($item in $out) {
       Write-Host $item
