@@ -182,7 +182,7 @@ function Update-Kernel {
     Write-Textbox "`r`nUpdate Failed with errors"
   }
 
-  Write-Textbox 'Complete!  Exit this program and re-run in a Non-Admin Powershell terminal'
+  Write-Textbox 'Complete!  Exit this program and re-run normaly (Not Administrator)'
   $UpdateButton.text = "Step 2:`r`nDone"
 }
 
@@ -393,15 +393,15 @@ function Confirm-Admin {
 
 function Show-Admin-Needed-Warning {
   $outputBox.Text = "";
-  Write-Textbox 'This step requires PowerShell to be run as Administrator' 1
-  Write-Textbox 'Please run PowerShell as Administrator and try again'
+  Write-Textbox 'This step needs to be run as Administrator' 1
+  Write-Textbox 'Please run as Administrator and try again'
 }
 function Show-No-Admin-Needed-Warning {
   $outputBox.Text = "";
-  Write-Textbox 'You are running PowerShell as Administrator!' 1
+  Write-Textbox 'You are running  as Administrator!' 1
   Write-Textbox 'This is not needed for this step and will very likely deploy the VM to the wrong place on your system.' !
-  Write-Textbox 'You need to run this step in a normal, non-admin PowerShell' 1
-  Write-Textbox 'Please run PowerShell normally (without Admin) and try again'
+  Write-Textbox 'You need to run this step as non-Administrator' 1
+  Write-Textbox 'Please run this program normally (no Admin) and try again'
 }
 function Confirm-Virtualization {
   Write-Host "Checking Hardware Virtualization.  One moment..."
