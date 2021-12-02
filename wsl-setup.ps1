@@ -2,7 +2,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
-$version = "1.02.012"
+$version = "1.02.013"
 
 function New-Button {
   param ( $x, $action, $text)
@@ -76,7 +76,7 @@ function Get-Env {
 [string]$dism = "$env:SystemRoot\system32\dism.exe"
 [string]$vmurl = Get-Env $env:wslsetup_vmurl 'https://bit.ly/3lhzXFa'
 [string]$tarFile = "$env:temp\Lighthouse_wsl-v1.2.tar"
-# Write-Host "URL=$vmurl"
+# Write-Host "URL=$vmurl"5
 
 function Write-Textbox {
   param  ( [string]$text, [int] $nl = 0)
@@ -349,7 +349,7 @@ function Get-WSL-Status {
     return "ENABLED"
   }
 
-  if ($out[-1] -match "version: 5") {
+  if ($out[-1] -match "5.10") {
     $vmStatus = Get-VM-Status
     if ($vmStatus) {
       return "ACTIVE"
