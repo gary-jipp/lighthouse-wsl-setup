@@ -2,10 +2,6 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
-[string]$n = "`r`n"
-[string]$wsl = "$env:SystemRoot\system32\wsl.exe"
-
-Write-Host $wsl
 
 function New-Button {
   param ( $x, $action, $text)
@@ -68,6 +64,18 @@ $EnableButton.Enabled = $false
 $DeployButton.Enabled = $false
 $UpdateButton.Enabled = $false
 $ShortcutButton.Enabled = $false
+
+function Get-Env {
+  param ($val, $default)
+  if (!$val) {
+    return $default
+  }
+  return !$val
+}
+
+[string]$n = "`r`n"
+[string]$wsl = "$env:SystemRoot\system32\wsl.exe"
+[string]$vmurl = Get-Env $env:wslsetup_vmurl 'https://bit.ly/3lhzXFa'
 
 $tarFile = "$env:temp\Lighthouse_wsl-v1.2.tar"
 
@@ -148,7 +156,7 @@ function Update-Kernel {
   $error.Clear()
   Write-Host "$n Updating WSL ..."
   Write-Textbox 'Updating WSL ...'
-  $out1 = Invoke-Command 'c:\windows\system32\wsl.exe --update'
+  $out1 = Invoke-Command "$wsl --update"
   foreach ($item in $out1) {
     Write-Host $item
   }
@@ -163,8 +171,8 @@ function Update-Kernel {
 
   Write-Host "$n Applying WSL Update..."
   Write-Textbox 'Applying WSL Update ...'
-  $out1 = Invoke-Command 'c:\windows\system32\wsl.exe --shutdown'
-  $out1 = Invoke-Command 'c:\windows\system32\wsl.exe --status'
+  $out1 = Invoke-Command "$wsl --shutdown"
+  $out1 = Invoke-Command "$wsl --status"
   foreach ($item in $out1) {
     Write-Host $item
   }
@@ -192,7 +200,7 @@ function  Import-Image {
   }
 
   $outputBox.Text = "";
-  $TempFile = Download('https://bit.ly/3lhzXFa')
+  $TempFile = Download($vmurl)
   $ZipFile = "$TempFile.zip"
   if (!$error) {
     Write-Host "Renaming: $ZipFile"
@@ -259,7 +267,7 @@ function Import-WSL-Image {
   param( $dest, $image)
   Write-Host "Import $tarFile ..."
   Write-Textbox 'Importing image ...'
-  $cmd = "c:\windows\system32\wsl.exe --import Lighthouse $dest $image --version 2"
+  $cmd = "$wsl --import Lighthouse $dest $image --version 2"
   Write-Host $cmd
   $out = Invoke-Command $cmd
   foreach ($item in $out) {
@@ -271,7 +279,7 @@ function Import-WSL-Image {
     return false
   }
 
-  $cmd = "c:\windows\system32\wsl.exe -l -v"
+  $cmd = "$wsl -l -v"
   Write-Host $cmd
   $out = Invoke-Command $cmd
   foreach ($item in $out) {
@@ -410,7 +418,7 @@ function Confirm-Virtualization {
 }
 
 function Get-VM-Status {
-  $cmd = "c:\windows\system32\wsl.exe -l -v"
+  $cmd = "$wsl -l -v"
   Write-Host $cmd
   $out = Invoke-Command $cmd
   foreach ($item in $out) {
