@@ -2,7 +2,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
-$version = "1.02.011"
+$version = "1.02.012"
 
 function New-Button {
   param ( $x, $action, $text)
@@ -88,8 +88,11 @@ function Write-Textbox {
   $outputBox.text += "$txt"
 }
 
+function Clear-Textbox{
+  $outputBox.Text = ""
+}
 function  EnableWSL {
-  $outputBox.Text = "";
+  Clear-Textbox
   $error.Clear()
   $EnableButton.Enabled = $false
   $EnableButton.Text = "Running"
@@ -102,7 +105,7 @@ function  EnableWSL {
     return
   }
 
-  $outputBox.Text = "";
+  Clear-Textbox
   Write-Host "$n Enabling WSL feature..."
   Write-Textbox 'Enabling WSL feature...'
   $out1 = Invoke-Command "$dism /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart"
@@ -142,7 +145,7 @@ function  EnableWSL {
 }
 
 function Update-Kernel {
-  $outputBox.Text = "";
+  Clear-Textbox
   $error.Clear()
   $UpdateButton.Enabled = $false
   $UpdateButton.Text = "Running"
@@ -155,7 +158,7 @@ function Update-Kernel {
     return
   }
 
-  $outputBox.Text = "";
+  Clear-Textbox
   $error.Clear()
   Write-Host "$n Updating WSL ..."
   Write-Textbox 'Updating WSL ...'
@@ -190,7 +193,7 @@ function Update-Kernel {
 }
 
 function  Import-Image {
-  $outputBox.Text = "";
+  Clear-Textbox
   $DeployButton.Enabled = $false
   $DeployButton.Text = "Running"
   Write-Host "started"
@@ -203,7 +206,7 @@ function  Import-Image {
     return
   }
 
-  $outputBox.Text = "";
+  Clear-Textbox
   $TempFile = Download($vmurl)
   $ZipFile = "$TempFile.zip"
   if (!$error) {
@@ -396,12 +399,12 @@ function Confirm-Admin {
 }
 
 function Show-Admin-Needed-Warning {
-  $outputBox.Text = "";
+  Clear-Textbox
   Write-Textbox 'This step needs to be run as Administrator' 1
   Write-Textbox 'Please run the program as Administrator and try again'
 }
 function Show-No-Admin-Needed-Warning {
-  $outputBox.Text = "";
+  Clear-Textbox
   Write-Textbox 'You are running as Administrator!' 1
   Write-Textbox 'This is not needed for this step and will very likely deploy the VM to the wrong place on your system.' !
   Write-Textbox 'You need to run this step as non-Administrator' 1
@@ -415,7 +418,7 @@ function Confirm-Virtualization {
     return $true
   }
 
-  $outputBox.Text = "";
+  Clear-Textbox
   Write-Textbox 'Your computer is not currently setup to support Hardware Virtualization.  Virtualization must be enabled for WSL to function.' 1
   Write-Textbox "You must enable Virtualization in your Computer's BIOS setup before continuing. This is usually quite easy but is different for every computer so please check your computer manual or search online for how to do this" 1 
   Write-Textbox 'Once enabled, continue with this Setup.'
