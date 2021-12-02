@@ -219,7 +219,7 @@ function  Import-Image {
   }
 
   if (!$error) {
-    $imageDir = "$HOME/Lighthouse/wsl"
+    $imageDir = "$HOME\Lighthouse\wsl"
     Write-Host "Creating:  $imageDir"
     New-Item -ItemType Directory -Force -Path $imageDir
   }
@@ -233,10 +233,17 @@ function  Import-Image {
     Write-Textbox "$error"
     Write-Textbox "`r`nDeploy Failed with errors"
   }
-
   Cleanup($ZipFile)
+
+  $success = Get-VM-Status
+  if (!$success) {
+    Write-Textbox "`r`Import Failed.  It happens, Maybe try again"
+    return;
+  }
+
   Write-Textbox 'Done!'
   $DeployButton.text = "Step 3:`r`nDone"
+  $ShortcutButton.Enabled = $true
 }
 
 function  Download {
@@ -443,9 +450,7 @@ if ($wslStatus -eq "UPDATED") {
   Write-Textbox 'Your system has WSL2 enabled with an updated Kernel.'
   Write-Textbox 'Continue with Step 3 to Deploy the Lighthouse Linux VM. ' 1
 
-  $EnableButton.Enabled = $false
   $DeployButton.Enabled = $true
-  $UpdateButton.Enabled = $false
   $EnableButton.text = "Step 1:`r`nDone"
   $UpdateButton.text = "Step 2:`r`nDone"
 }
