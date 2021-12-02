@@ -293,14 +293,6 @@ function Import-WSL-Image {
     return false
   }
 
-  $cmd = "$wsl -l -v"
-  Write-Host $cmd
-  $out = Invoke-Command $cmd
-  foreach ($item in $out) {
-    Write-Host $item
-    Write-Textbox $item
-  }
-
   return $true
 }
 
