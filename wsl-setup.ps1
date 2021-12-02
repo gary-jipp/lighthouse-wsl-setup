@@ -37,7 +37,7 @@ $Form.Font = $FontFace
 
 $outputBox = New-Object System.Windows.Forms.TextBox
 $outputBox.Location = New-Object System.Drawing.Size(10, 120)
-$outputBox.Size = New-Object System.Drawing.Size(565, 240)
+$outputBox.Size = New-Object System.Drawing.Size(565, 250)
 $outputBox.MultiLine = $True
 $outputBox.Scrollbars = "Vertical"
 $FontFace = New-Object System.Drawing.Font(
