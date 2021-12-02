@@ -242,6 +242,7 @@ function  Import-Image {
   }
 
   Write-Textbox 'Done!'
+  Write-Textbox 'Looks like that worked!  Now run Step 4 to create a few useful shortcuts on your desktop.  '
   $DeployButton.text = "Step 3:`r`nDone"
   $ShortcutButton.Enabled = $true
 }
@@ -431,7 +432,7 @@ function Get-VM-Status {
   $out = Invoke-Command $cmd
   foreach ($item in $out) {
     Write-Host $item
-    if($display){
+    if ($display) {
       Write-Textbox $item
     }
   }
