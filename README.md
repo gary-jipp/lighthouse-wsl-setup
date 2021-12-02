@@ -1,4 +1,5 @@
 # Lighthouse Windows 10 WSL Setup
+https://git.io/JMXGV
 
 ## Quick Start
 
