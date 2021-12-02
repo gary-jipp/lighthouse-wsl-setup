@@ -140,7 +140,7 @@ function  EnableWSL {
   Write-Host "completed successfully."
 
   $EnableButton.text = "Step 1:`r`nDone"
-  Write-Textbox "Done.  Please REBOOT Your computer now!"
+  Write-Textbox "Done.  Please exit this program and REBOOT Your computer now!"
 }
 
 function Update-Kernel {
