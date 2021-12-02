@@ -187,7 +187,8 @@ function Update-Kernel {
     Write-Textbox "`r`nUpdate Failed with errors"
   }
 
-  Write-Textbox 'Complete!  Exit this program and re-run normaly (Not Administrator)'
+  Write-Textbox 'Complete!'
+  Write-Textbox 'Exit this program and re-run normally (Not Administrator)'
   $UpdateButton.text = "Step 2:`r`nDone"
 }
 
