@@ -104,7 +104,8 @@ function  EnableWSL {
     $Form.Controls.Add($CloseButton1)
     return
   }
-
+  
+  $outputBox.Text = "";
   Write-Host "$n Enabling WSL feature..."
   Write-Textbox 'Enabling WSL feature...'
   $out1 = Invoke-Command "$dism /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart"
