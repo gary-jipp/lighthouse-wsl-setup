@@ -76,7 +76,7 @@ function Get-Env {
 [string]$dism = "$env:SystemRoot\system32\dism.exe"
 [string]$vmurl = Get-Env $env:wslsetup_vmurl 'https://bit.ly/3lhzXFa'
 [string]$tarFile = "$env:temp\Lighthouse_wsl-v1.2.tar"
-Write-Host "URL=$vmurl"
+# Write-Host "URL=$vmurl"
 
 function Write-Textbox {
   param  ( [string]$text, [int] $nl = 0)
