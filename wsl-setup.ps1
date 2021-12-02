@@ -2,6 +2,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
+$version="1.04"
 
 function New-Button {
   param ( $x, $action, $text)
@@ -27,7 +28,7 @@ $Form.Size = New-Object System.Drawing.Size(500, 640)
 $Form.StartPosition = "CenterParent"   
 $Form.AutoSize = $true
 $Form.AutoSizeMode = "GrowAndShrink"
-$Form.Text = "Lighthouse Labs VM  Installer 1.03"
+$Form.Text = "Lighthouse Labs WSL Installer $version"
 
 $FontFace = New-Object System.Drawing.Font(
   "Comic Sans MS", 14, [System.Drawing.FontStyle]::Regular
