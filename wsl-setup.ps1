@@ -2,7 +2,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
-$version = "1.02.006"
+$version = "1.02.008"
 
 function New-Button {
   param ( $x, $action, $text)
@@ -248,7 +248,7 @@ function  Download {
   try {
     Write-Textbox 'Downloading ...'
     Write-Textbox '(This can take a long time)'
-    Invoke-WebRequest $url -OutFile  $TempFile
+    (New-Object System.Net.WebClient).DownloadFile($url, $TempFile)
   }
   catch {
     Write-Textbox $error
