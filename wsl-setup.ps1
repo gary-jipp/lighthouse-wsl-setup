@@ -2,7 +2,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
-$version = "1.02.009"
+$version = "1.02.010"
 
 function New-Button {
   param ( $x, $action, $text)
@@ -261,6 +261,7 @@ function  Download {
     Write-Textbox $error
   }
 
+  Write-Textbox 'Download complete!'
   return $TempFile 
 }
 
