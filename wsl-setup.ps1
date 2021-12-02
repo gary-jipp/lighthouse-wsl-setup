@@ -2,7 +2,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
-$version="1.04"
+$version = "1.05"
 
 function New-Button {
   param ( $x, $action, $text)
@@ -92,6 +92,7 @@ function Write-Textbox {
 }
 
 function  EnableWSL {
+  $outputBox.Text = "";
   $error.Clear()
   $EnableButton.Enabled = $false
   $EnableButton.Text = "Running"
@@ -143,6 +144,7 @@ function  EnableWSL {
 }
 
 function Update-Kernel {
+  $outputBox.Text = "";
   $error.Clear()
   $UpdateButton.Enabled = $false
   $UpdateButton.Text = "Running"
