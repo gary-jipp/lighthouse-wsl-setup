@@ -49,17 +49,18 @@ $EnableButton = New-Button  20 { EnableWSL } "Step 1: `r`nEnable WSL2"
 $Form.Controls.Add($EnableButton)
 $UpdateButton = New-Button  160 { Update-Kernel } "Step 2: `r`nUpdate Kernel"
 $Form.Controls.Add($UpdateButton)
-$DeployButton = New-Button  300 { Import-Image } "Step 3: `r`nImport VM Image"
-$Form.Controls.Add($DeployButton)
+$ImportButton = New-Button  300 { Import-Image } "Step 3: `r`nImport VM Image"
+$Form.Controls.Add($ImportButton)
 $ShortcutButton = New-Button  440 { Add-Shortcuts } "Step 4: `r`nCreate Shortcuts"
 $Form.Controls.Add($ShortcutButton)
 
 $CloseButton1 = New-Button  20 { $Form.Close() } "Exit"
 $CloseButton2 = New-Button  160 { $Form.Close() } "Exit"
 $CloseButton3 = New-Button  300 { $Form.Close() } "Exit"
+$CleanupButton = New-Button  440 { Cleanup } "Finished:`r`nCleanup Files"
 
 $EnableButton.Enabled = $false
-$DeployButton.Enabled = $false
+$ImportButton.Enabled = $false
 $UpdateButton.Enabled = $false
 $ShortcutButton.Enabled = $false
 
@@ -88,7 +89,7 @@ function Write-Textbox {
   $outputBox.text += "$txt"
 }
 
-function Clear-Textbox{
+function Clear-Textbox {
   $outputBox.Text = ""
 }
 function  EnableWSL {
@@ -194,14 +195,14 @@ function Update-Kernel {
 
 function  Import-Image {
   Clear-Textbox
-  $DeployButton.Enabled = $false
-  $DeployButton.Text = "Running"
+  $ImportButton.Enabled = $false
+  $ImportButton.Text = "Running"
   Write-Host "started"
 
   $isAdmin = Confirm-Admin
   if ($isAdmin) {
     Show-No-Admin-Needed-Warning
-    $Form.Controls.Remove($DeployButton)
+    $Form.Controls.Remove($ImportButton)
     $Form.Controls.Add($CloseButton3)
     return
   }
@@ -233,7 +234,6 @@ function  Import-Image {
     Write-Textbox "$error"
     Write-Textbox "`r`nDeploy Failed with errors"
   }
-  Cleanup($ZipFile)
 
   $success = Get-VM-Status $true
   if (!$success) {
@@ -243,7 +243,7 @@ function  Import-Image {
 
   Write-Textbox 'Done! Looks like that worked.'
   Write-Textbox 'Now run Step 4 to create a few useful shortcuts on your desktop.'
-  $DeployButton.text = "Step 3:`r`nDone"
+  $ImportButton.text = "Step 3:`r`nDone"
   $ShortcutButton.Enabled = $true
 }
 
@@ -272,7 +272,9 @@ function  UnPack {
   Write-Host "Unpacking: $Filename"
   
   try {
+    Write-Host "Deleting: $ZipFile"
     Expand-Archive -Force  $Filename  -DestinationPath $env:temp
+    Remove-Item $ZipFile
   }
   catch {
     Write-Textbox $error
@@ -312,18 +314,22 @@ function Add-Shortcuts {
   $shortcut.TargetPath = "\\wsl$\LightHouse\home\labber\lighthouse"
   $shortcut.Save()
 
-  Write-Textbox "Complete!  Your Lighthouse WSL is ready to use!"
+  $Form.Controls.Remove($ImportButton)
+  $Form.Controls.Add($CleanupButton)
+
+  Write-Textbox "Shortcuts Created!"
+  Write-Textbox "Press the Cleanup Button to remove the temporary download files"
+
+  $Form.Controls.Remove($ShortcutButton)
+  $Form.Controls.Add($CleanupButton)
 }
 
 function  Cleanup {
-  param ($ZipFile)
+  Clear-Textbox
   Write-Textbox "`r`nCleaning up ..."
-  Write-Host "Deleting: $ZipFile"
-  Remove-Item $ZipFile
-  # Remove-Item "$env:temp"
-
   Write-Host "Deleting: $tarFile"
   Remove-Item $tarFile
+  Write-Textbox "Complete!  Your Lighthouse WSL is ready to use!"
 }
 
 function Get-WSL-Status {
@@ -448,30 +454,30 @@ if ($wslStatus -eq "UPDATED") {
   Write-Textbox 'Your system has WSL2 enabled with an updated Kernel.'
   Write-Textbox 'Continue with Step 3 to Deploy the Lighthouse Linux VM. ' 1
 
-  $DeployButton.Enabled = $true
+  $ImportButton.Enabled = $true
   $EnableButton.text = "Step 1:`r`nDone"
   $UpdateButton.text = "Step 2:`r`nDone"
 }
 if ($wslStatus -eq "NOT_ENABLED") {
-  Write-Textbox 'Your system has does not have WSL2 enabled. Continue with Step 1 to enable WSL2'
+  Write-Textbox "Your system has does not have WSL2 enabled. Continue with Step 1 to enable WSL2"
   $EnableButton.Enabled = $true
 }
 
 if ($wslStatus -eq "ENABLED") {
-  Write-Textbox 'Your system has WSL2 enabled. Continue to Step 2 to Update the Kernel'
+  Write-Textbox "Your system has WSL2 enabled. Continue to Step 2 to Update the Kernel"
   $UpdateButton.Enabled = $true
   $EnableButton.text = "Step 1:`r`nDone"
 }
 
 if ($wslStatus -eq "ACTIVE") {
-  Write-Textbox 'Your system has Lighthouse WSL already installed. Continue to Step 4 to Create Windows Shortcuts'
+  Write-Textbox "`r`nYour system has Lighthouse WSL already installed. You can continue to Step 4 to Create Windows Shortcuts if you have not already done that."
   $ShortcutButton.Enabled = $true
 }
 
 if ($wslStatus -eq "ERROR") {
   Write-Textbox 'An error was encountered!'
   $EnableButton.Enabled = $false
-  $DeployButton.Enabled = $false
+  $ImportButton.Enabled = $false
   $UpdateButton.Enabled = $false
   $ShortcutButton.Enabled = $false
 }
