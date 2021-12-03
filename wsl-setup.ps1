@@ -235,6 +235,8 @@ function  Import-Image {
   $success = Get-VM-Status $true
   if (!$success) {
     Write-Textbox "`r`Import Failed.  It happens, Maybe try again"
+    $ImportButton.Enabled = $false
+    $ImportButton.Text = "Try Import Again"
     return;
   }
 
