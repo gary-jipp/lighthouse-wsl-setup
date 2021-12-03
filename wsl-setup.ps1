@@ -208,17 +208,14 @@ function  Import-Image {
   }
 
   Clear-Textbox
-  $TempFile = Download($vmurl)
-  $ZipFile = "$TempFile.zip"
-  if (!$error) {
-    Write-Host "Renaming: $ZipFile"
-    Rename-Item -Path $TempFile -NewName $ZipFile
+  $tarExists = Test-Path -Path $tarFile  -PathType Leaf
+  if ($tarExists) {
+    Write-Host "Using existing file:  $tarExists"
+    Write-Textbox "`r`nUsing previously downloaded Image."
   }
-
-  if (!$error) {
-    UnPack($ZipFile);
+  if (-not $tarExists) {
+    Get-Image
   }
-
   if (!$error) {
     $imageDir = "$HOME\Lighthouse\wsl"
     Write-Host "Creating:  $imageDir"
@@ -245,6 +242,24 @@ function  Import-Image {
   Write-Textbox 'Now run Step 4 to create a few useful shortcuts on your desktop.'
   $ImportButton.text = "Step 3:`r`nDone"
   $ShortcutButton.Enabled = $true
+}
+
+function Get-Image {
+  $TempFile = Download($vmurl)
+  $ZipFile = "$TempFile.zip"
+  if (!$error) {
+    Write-Host "Renaming: $ZipFile"
+    Rename-Item -Path $TempFile -NewName $ZipFile
+  }
+
+  if (!$error) {
+    UnPack($ZipFile);
+  }
+  if ($error) {
+    return $false
+  }
+
+  return $true;
 }
 
 function  Download {
@@ -448,16 +463,8 @@ function Get-VM-Status {
   }
   return $false
 }
-
+## --- Startup ---
 $wslStatus = Get-WSL-Status 
-if ($wslStatus -eq "UPDATED") {
-  Write-Textbox 'Your system has WSL2 enabled with an updated Kernel.'
-  Write-Textbox 'Continue with Step 3 to Deploy the Lighthouse Linux VM. ' 1
-
-  $ImportButton.Enabled = $true
-  $EnableButton.text = "Step 1:`r`nDone"
-  $UpdateButton.text = "Step 2:`r`nDone"
-}
 if ($wslStatus -eq "NOT_ENABLED") {
   Write-Textbox "Your system has does not have WSL2 enabled. Continue with Step 1 to enable WSL2"
   $EnableButton.Enabled = $true
@@ -467,6 +474,13 @@ if ($wslStatus -eq "ENABLED") {
   Write-Textbox "Your system has WSL2 enabled. Continue to Step 2 to Update the Kernel"
   $UpdateButton.Enabled = $true
   $EnableButton.text = "Step 1:`r`nDone"
+}
+if ($wslStatus -eq "UPDATED") {
+  Write-Textbox 'Your system has WSL2 enabled with an updated Kernel.'
+  Write-Textbox 'Continue with Step 3 to Deploy the Lighthouse Linux VM. ' 1
+  $ImportButton.Enabled = $true
+  $EnableButton.text = "Step 1:`r`nDone"
+  $UpdateButton.text = "Step 2:`r`nDone"
 }
 
 if ($wslStatus -eq "ACTIVE") {
@@ -489,6 +503,10 @@ if ($wslStatus -ne "ACTIVE") {
   if (!$virtualStatus) {
     $ShortcutButton.Enabled = $false
   }
+}
+
+if(Test-Path -Path $tarFile  -PathType Leaf){
+  Write-Host "Found existing image file: $tarFile"
 }
 
 [void] $Form.showDialog()
