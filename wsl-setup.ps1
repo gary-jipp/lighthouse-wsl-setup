@@ -77,7 +77,7 @@ function Get-Env {
 [string]$dism = "$env:SystemRoot\system32\dism.exe"
 [string]$vmurl = Get-Env $env:wslsetup_vmurl 'https://bit.ly/3lhzXFa'
 [string]$tarFile = "$env:temp\Lighthouse_wsl-v1.2.tar"
-# Write-Host "URL=$vmurl"5
+Write-Host "URL=$vmurl"
 
 function Write-Textbox {
   param  ( [string]$text, [int] $nl = 0)
@@ -107,7 +107,7 @@ function  EnableWSL {
   }
 
   Clear-Textbox
-  Write-Host "$n Enabling WSL feature..."
+  Write-Host "Enabling WSL feature..."
   Write-Textbox 'Enabling WSL feature...'
   $out1 = Invoke-Command "$dism /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart"
   foreach ($item in $out1) {
@@ -124,7 +124,7 @@ function  EnableWSL {
   Write-Textbox  $out1[-1] 1
   Write-Host "completed successfully."
 
-  Write-Host "$n Enabling Virtual Machine Platform feature..."
+  Write-Host "Enabling Virtual Machine Platform feature..."
   Write-Textbox 'Enabling Virtual Machine Platform feature...'
   $out1 = Invoke-Command "$dism  /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart"
   foreach ($item in $out1) {
@@ -161,7 +161,7 @@ function Update-Kernel {
 
   Clear-Textbox
   $error.Clear()
-  Write-Host "$n Updating WSL ..."
+  Write-Host "Updating WSL ..."
   Write-Textbox 'Updating WSL ...'
   $out1 = Invoke-Command "$wsl --update"
   foreach ($item in $out1) {
@@ -176,7 +176,7 @@ function Update-Kernel {
   Write-Textbox  $out1[-1] 1
   Write-Host "completed successfully."
 
-  Write-Host "$n Applying WSL Update..."
+  Write-Host "Applying WSL Update..."
   Write-Textbox 'Applying WSL Update ...'
   $out1 = Invoke-Command "$wsl --shutdown"
   $out1 = Invoke-Command "$wsl --status"
@@ -505,7 +505,7 @@ if ($wslStatus -ne "ACTIVE") {
   }
 }
 
-if(Test-Path -Path $tarFile  -PathType Leaf){
+if (Test-Path -Path $tarFile  -PathType Leaf) {
   Write-Host "Found existing image file: $tarFile"
 }
 
