@@ -316,8 +316,8 @@ function Import-WSL-Image {
 }
 
 function Add-Shortcuts {
-  Write-Textbox "`r`nCreating Desktop Shortcuts ..."
-  Write-Host "Deleting: $ZipFile"
+  Write-Textbox "Creating Desktop Shortcuts ..."
+  Write-Host "Creating Shortcuts"
   $WshShell = New-Object -comObject WScript.Shell
   $shortcut = $WshShell.CreateShortcut("$Home\Desktop\Lighthouse WSL.lnk")
   $shortcut.TargetPath = "$wsl"
@@ -328,9 +328,6 @@ function Add-Shortcuts {
   $shortcut = $WshShell.CreateShortcut("$Home\Desktop\Lighthouse Files.lnk")
   $shortcut.TargetPath = "\\wsl$\LightHouse\home\labber\lighthouse"
   $shortcut.Save()
-
-  $Form.Controls.Remove($ImportButton)
-  $Form.Controls.Add($CleanupButton)
 
   Write-Textbox "Shortcuts Created!"
   Write-Textbox "Press the Cleanup Button to remove the temporary download files"
@@ -344,6 +341,7 @@ function  Cleanup {
   Write-Textbox "`r`nCleaning up ..."
   Write-Host "Deleting: $tarFile"
   Remove-Item $tarFile
+  $CleanupButton.Enabled = $false
   Write-Textbox "Complete!  Your Lighthouse WSL is ready to use!"
 }
 
