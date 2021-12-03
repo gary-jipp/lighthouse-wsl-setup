@@ -236,7 +236,7 @@ function  Import-Image {
   if (!$success) {
     Write-Textbox "`r`Import Failed.  It happens, Maybe try again"
     $ImportButton.Enabled = $false
-    $ImportButton.Text = "Try Import Again"
+    $ImportButton.Text = "Import: Try Again"
     return;
   }
 
