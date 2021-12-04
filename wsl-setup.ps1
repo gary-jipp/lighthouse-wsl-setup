@@ -228,13 +228,16 @@ function  Import-Image {
   if ($error -or !$import) {
     Write-Textbox "$error"
     Write-Textbox "`r`nDeploy Failed with errors"
+    $ImportButton.Enabled = $false
+    $ImportButton.Text = "Try Again"
+    return;
   }
 
   $success = Get-VM-Status $true
   if (!$success) {
     Write-Textbox "`r`Import Failed.  It happens, Maybe try again"
     $ImportButton.Enabled = $false
-    $ImportButton.Text = "Import: Try Again"
+    $ImportButton.Text = "Try Again"
     return;
   }
 
