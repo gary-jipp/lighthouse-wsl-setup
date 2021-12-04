@@ -2,7 +2,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
-$version = "1.02.022"
+$version = "1.02.023"
 
 function New-Button {
   param ( $x, $action, $text)
@@ -192,6 +192,7 @@ function Update-Kernel {
 }
 
 function  Import-Image {
+  $error.Clear()
   Clear-Textbox
   $ImportButton.Enabled = $false
   $ImportButton.Text = "Running"
