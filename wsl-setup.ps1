@@ -2,7 +2,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
-$version = "1.02.020"
+$version = "1.02.0209"
 
 function New-Button {
   param ( $x, $action, $text)
@@ -142,7 +142,7 @@ function  EnableWSL {
   Write-Host "completed successfully."
 
   $EnableButton.text = "Step 1:`r`nDone"
-  Write-Textbox "Done.  Please exit this program and REBOOT Your computer now!"
+  Write-Textbox "Done.  Please exit the program and REBOOT Your computer now!"
 }
 
 function Update-Kernel {
@@ -187,7 +187,7 @@ function Update-Kernel {
   }
 
   Write-Textbox 'Complete!'
-  Write-Textbox 'Exit this program and re-run normally (Not Administrator)'
+  Write-Textbox 'Exit the program and re-run normally, Not Administrator'
   $UpdateButton.text = "Step 2:`r`nDone"
 }
 
