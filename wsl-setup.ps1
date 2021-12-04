@@ -2,7 +2,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
-$version = "1.02.019"
+$version = "1.02.020"
 
 function New-Button {
   param ( $x, $action, $text)
@@ -170,7 +170,7 @@ function Update-Kernel {
   if ($error -or $out1[-1] -notmatch "version") {
     $EnableButton.Text = "Error!"
     Write-Textbox $error
-    Write-Textbox "Error.  Not Completed!"
+    Write-Textbox "Not Completed!  Please restart and try again"
     return
   }
   Write-Textbox  $out1[-1] 1
@@ -181,7 +181,8 @@ function Update-Kernel {
   $out1 = Invoke-Command "$wsl --shutdown"
   $status = Get-WSL-Status
   if ($status -eq "ENABLED") {
-    Write-Textbox "`r`nUpdate Failed with errors"
+    $EnableButton.Text = "Error!"
+    Write-Textbox "Update Failed with errors. Please restart and try againn"
     return
   }
 
