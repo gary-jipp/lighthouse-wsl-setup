@@ -330,7 +330,7 @@ function Add-Shortcuts {
   $shortcut.Save()
 
   Write-Textbox "Shortcuts Created!"
-  Write-Textbox "Press the Cleanup Button to remove the temporary download files"
+  Write-Textbox "Press the Cleanup Button to remove the downloaded image file (Optional)"
 
   $Form.Controls.Remove($ShortcutButton)
   $Form.Controls.Add($CleanupButton)
