@@ -179,13 +179,10 @@ function Update-Kernel {
   Write-Host "Applying WSL Update..."
   Write-Textbox 'Applying WSL Update ...'
   $out1 = Invoke-Command "$wsl --shutdown"
-  $out1 = Invoke-Command "$wsl --status"
-  foreach ($item in $out1) {
-    Write-Host $item
-  }
-
-  if ($error) {
+  $status = Get-WSL-Status
+  if ($status -eq "ENABLED") {
     Write-Textbox "`r`nUpdate Failed with errors"
+    return
   }
 
   Write-Textbox 'Complete!'
@@ -370,7 +367,7 @@ function Get-WSL-Status {
     return "ENABLED"
   }
 
-  if ($out[-1] -match "5.10") {
+  if ($out[-1] -match "version: 5.10") {
     $vmStatus = Get-VM-Status
     if ($vmStatus) {
       return "ACTIVE"
