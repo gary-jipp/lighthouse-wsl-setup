@@ -2,7 +2,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
-$version = "1.02.015"
+$version = "1.02.016"
 
 function New-Button {
   param ( $x, $action, $text)
@@ -471,7 +471,7 @@ if ($wslStatus -eq "NOT_ENABLED") {
 }
 
 if ($wslStatus -eq "ENABLED") {
-  Write-Textbox "Your system has WSL2 enabled. Continue to Step 2 to Update the Kernel"
+  Write-Textbox "Your system has WSL2 enabled but needs a kernel update.`r`nContinue to Step 2 to Update the Kernel"
   $UpdateButton.Enabled = $true
   $EnableButton.text = "Step 1:`r`nDone"
 }
