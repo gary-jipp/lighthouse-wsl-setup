@@ -2,7 +2,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
-$version = "1.02.024"
+$version = "1.02.025"
 
 function New-Button {
   param ( $x, $action, $text)
@@ -57,7 +57,7 @@ $Form.Controls.Add($ShortcutButton)
 $CloseButton1 = New-Button  20 { $Form.Close() } "Exit"
 $CloseButton2 = New-Button  160 { $Form.Close() } "Exit"
 $CloseButton3 = New-Button  300 { $Form.Close() } "Exit"
-$CleanupButton = New-Button  440 { Cleanup } "Finished"
+$CleanupButton = New-Button  440 { Cleanup } "Clean Up"
 
 $EnableButton.Enabled = $false
 $ImportButton.Enabled = $false
