@@ -187,7 +187,7 @@ function Update-Kernel {
   }
 
   Write-Textbox 'Complete!'
-  Write-Textbox 'Exit the program and re-run normally, Not Administrator'
+  Write-Textbox 'Exit the program and re-run normally, Not as Administrator'
   $UpdateButton.text = "Step 2:`r`nDone"
 }
 
