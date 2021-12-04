@@ -182,7 +182,7 @@ function Update-Kernel {
   $status = Get-WSL-Status
   if ($status -eq "ENABLED") {
     $EnableButton.Text = "Error!"
-    Write-Textbox "Update Failed with errors. Please restart and try againn"
+    Write-Textbox "Update Failed with errors. Please restart and try again"
     return
   }
 
@@ -228,7 +228,7 @@ function  Import-Image {
   if ($error -or !$import) {
     Write-Textbox "$error"
     Write-Textbox "`r`nDeploy Failed with errors"
-    $ImportButton.Enabled = $false
+    $ImportButton.Enabled = $true
     $ImportButton.Text = "Try Again"
     return;
   }
@@ -236,7 +236,7 @@ function  Import-Image {
   $success = Get-VM-Status $true
   if (!$success) {
     Write-Textbox "`r`Import Failed.  It happens, Maybe try again"
-    $ImportButton.Enabled = $false
+    $ImportButton.Enabled = $true
     $ImportButton.Text = "Try Again"
     return;
   }
