@@ -57,7 +57,7 @@ $Form.Controls.Add($ShortcutButton)
 $CloseButton1 = New-Button  20 { $Form.Close() } "Exit"
 $CloseButton2 = New-Button  160 { $Form.Close() } "Exit"
 $CloseButton3 = New-Button  300 { $Form.Close() } "Exit"
-$CleanupButton = New-Button  440 { Cleanup } "Finished:`r`nCleanup Files"
+$CleanupButton = New-Button  440 { Cleanup } "Finished"
 
 $EnableButton.Enabled = $false
 $ImportButton.Enabled = $false
