@@ -331,12 +331,12 @@ function Add-Shortcuts {
   $shortcut = $WshShell.CreateShortcut("$Home\Desktop\Lighthouse Files.lnk")
   $shortcut.TargetPath = "\\wsl$\LightHouse\home\labber\lighthouse"
   $shortcut.Save()
+  
+  $Form.Controls.Remove($ShortcutButton)
+  $Form.Controls.Add($CleanupButton)
 
   Write-Textbox "Shortcuts Created!"
   Write-Textbox "Press the Cleanup Button to remove the downloaded image file (Optional)"
-
-  $Form.Controls.Remove($ShortcutButton)
-  $Form.Controls.Add($CleanupButton)
 }
 
 function  Cleanup {
