@@ -2,7 +2,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
-$version = "1.02.023"
+$version = "1.02.024"
 
 function New-Button {
   param ( $x, $action, $text)
@@ -291,7 +291,6 @@ function  UnPack {
   Write-Host "Unpacking: $Filename"
   
   try {
-    Write-Host "Deleting: $ZipFile"
     Expand-Archive -Force  $Filename  -DestinationPath $env:temp
     Remove-Item $ZipFile
   }
