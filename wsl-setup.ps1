@@ -466,25 +466,28 @@ function Get-VM-Status {
 ## --- Startup ---
 $wslStatus = Get-WSL-Status 
 if ($wslStatus -eq "NOT_ENABLED") {
-  Write-Textbox "Your system has does not have WSL2 enabled. Continue with Step 1 to enable WSL2"
+  Write-Textbox "Your system has does not have WSL2 enabled." 1
+  Write-Textbox "Continue with Step 1 to enable WSL2"
   $EnableButton.Enabled = $true
 }
 
 if ($wslStatus -eq "ENABLED") {
-  Write-Textbox "Your system has WSL2 enabled but needs a kernel update.`r`nContinue to Step 2 to Update the Kernel"
+  Write-Textbox "Your system has WSL2 enabled but needs a kernel update" 1
+  Write-Textbox "Continue to Step 2 to Update the Kernel"
   $UpdateButton.Enabled = $true
   $EnableButton.text = "Step 1:`r`nDone"
 }
 if ($wslStatus -eq "UPDATED") {
-  Write-Textbox 'Your system has WSL2 enabled with an updated Kernel.'
-  Write-Textbox 'Continue with Step 3 to Deploy the Lighthouse Linux VM. ' 1
+  Write-Textbox 'Your system has WSL2 enabled with an updated Kernel.' 1
+  Write-Textbox 'Continue with Step 3 to Deploy the Lighthouse Linux VM. '
   $ImportButton.Enabled = $true
   $EnableButton.text = "Step 1:`r`nDone"
   $UpdateButton.text = "Step 2:`r`nDone"
 }
 
 if ($wslStatus -eq "ACTIVE") {
-  Write-Textbox "`r`nYour system has Lighthouse WSL already installed. You can continue to Step 4 to Create Windows Shortcuts if you have not already done that."
+  Write-Textbox "Your system has Lighthouse WSL already installed." 1
+  Write-Textbox "You can continue to Step 4 to Create Windows Shortcuts if you have not already done that."
   $ShortcutButton.Enabled = $true
 }
 
