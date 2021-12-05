@@ -2,7 +2,7 @@
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 $ErrorActionPreference = 'SilentlyContinue'
-$version = "1.02.025"
+$version = "1.02.026"
 
 function New-Button {
   param ( $x, $action, $text)
@@ -323,7 +323,7 @@ function Add-Shortcuts {
   Write-Host "Creating Shortcuts"
   $WshShell = New-Object -comObject WScript.Shell
   $shortcut = $WshShell.CreateShortcut("$Home\Desktop\Lighthouse WSL.lnk")
-  $shortcut.TargetPath = "$wsl"
+  $shortcut.TargetPath = "$wsl -d lighthouse"
   $shortcut.WorkingDirectory = "\\wsl$\LightHouse\home\labber\lighthouse"
   $shortcut.Save()
 
