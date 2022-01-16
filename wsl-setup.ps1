@@ -320,15 +320,21 @@ function Import-WSL-Image {
 
 function Add-Shortcuts {
   Write-Textbox "Creating Desktop Shortcuts ..."
-  Write-Host "Creating Shortcuts"
+  $shortcutPath = "$HOME\Desktop\Lighthouse WSL.lnk"
+  Write-Host "Creating Shortcut $shortcutPath ..."
+
   $WshShell = New-Object -comObject WScript.Shell
-  $shortcut = $WshShell.CreateShortcut("$Home\Desktop\Lighthouse WSL.lnk")
-  $shortcut.TargetPath = "$wsl -d lighthouse"
+  $shortcut = $WshShell.CreateShortcut( $shortcutPath)
+  $shortcut.TargetPath = "$wsl"
+  $shortcut.Arguments = "-d lighthouse"
   $shortcut.WorkingDirectory = "\\wsl$\LightHouse\home\labber\lighthouse"
   $shortcut.Save()
 
+  $shortcutPath = "$HOME\Desktop\Lighthouse Files.lnk"
+  Write-Host "Creating Shortcut $shortcutPath ..."
+
   $WshShell = New-Object -comObject WScript.Shell
-  $shortcut = $WshShell.CreateShortcut("$Home\Desktop\Lighthouse Files.lnk")
+  $shortcut = $WshShell.CreateShortcut( $shortcutPath)
   $shortcut.TargetPath = "\\wsl$\LightHouse\home\labber\lighthouse"
   $shortcut.Save()
   
