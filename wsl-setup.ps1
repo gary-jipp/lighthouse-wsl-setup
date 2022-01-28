@@ -75,7 +75,7 @@ function Get-Env {
 [string]$n = "`r`n"
 [string]$wsl = "$env:SystemRoot\system32\wsl.exe"
 [string]$dism = "$env:SystemRoot\system32\dism.exe"
-[string]$vmurl = Get-Env $env:wslsetup_vmurl 'https://bit.ly/3lhzXFa'
+[string]$vmurl = Get-Env $env:wslsetup_vmurl 'https://bit.ly/3rc1efz'
 [string]$tarFile = "$env:temp\Lighthouse_wsl-v1.2.tar"
 Write-Host "URL=$vmurl"
 
