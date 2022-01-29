@@ -76,7 +76,7 @@ function Get-Env {
 [string]$wsl = "$env:SystemRoot\system32\wsl.exe"
 [string]$dism = "$env:SystemRoot\system32\dism.exe"
 [string]$vmurl = Get-Env $env:wslsetup_vmurl 'https://bit.ly/3rc1efz'
-[string]$tarFile = "$env:temp\Lighthouse_wsl-v1.2.tar"
+[string]$tarFile = "$env:temp\Lighthouse_wsl-v1.3.tar"
 Write-Host "URL=$vmurl"
 
 function Write-Textbox {
@@ -337,6 +337,13 @@ function Add-Shortcuts {
   $shortcut = $WshShell.CreateShortcut( $shortcutPath)
   $shortcut.TargetPath = "\\wsl$\LightHouse\home\labber\lighthouse"
   $shortcut.Save()
+  
+  $shortcutExists = Test-Path -Path $shortcutPath  -PathType Leaf
+  if (-not $shortcutExists) {
+    Write-Textbox "There was a problem creating the shortcuts on your system"
+    Write-Textbox "Please try again or contact support for further help"
+    return
+  }
   
   $Form.Controls.Remove($ShortcutButton)
   $Form.Controls.Add($CleanupButton)
